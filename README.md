@@ -45,7 +45,7 @@ Dann diese 'Hello world!'-TextView löschen.
 Nun auf der linken Seite 'Layouts' öffnen.  
 Dort auf das 'GridLayout' klicken, festhalten und auf die Oberfläche ziehen.
 
-Nun in die 'activity_main.xml' wechseln.  
+Nun in die **activity_main.xml** wechseln.  
 Dann die beiden letzten Zeilen mit 'columnCount' und 'rowCount' einbringen.  
 
 Normalerweise, normalerweise sollte dies per 'Properties'-Editor möglich sein.  
@@ -71,6 +71,9 @@ Nun sollte das jungfräuliche Design fertig sein.
 
 ![Image](./readme-img/2-calc-virgin.png)
 
-![Image](./readme-img/3-rename-resource.png)
+(Für heute ist zunächst Schluß)
 
 ![Image](./readme-img/4-calc-renamed.png)
+
+
+![Image](./readme-img/3-rename-resource.png)
