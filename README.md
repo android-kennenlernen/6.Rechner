@@ -1,5 +1,4 @@
-Rechner
-=======
+# 6. Rechner
 
 Mittels der bisher erlangten Kenntnisse ist es nun möglich, ein erstes Projekt zu realisieren.  
 
