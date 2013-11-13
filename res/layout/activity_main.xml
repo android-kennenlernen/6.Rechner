@@ -31,8 +31,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="97dp"
-        android:columnCount="7"
-        android:rowCount="8" >
+        android:columnCount="4"
+        android:rowCount="5" >
 
         <Button
             android:id="@+id/btnNum_7"
