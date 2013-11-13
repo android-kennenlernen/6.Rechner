@@ -4,3 +4,11 @@
 *.jar
 *.war
 *.ear
+/gen
+/bin
+/libs
+/ic_launcher-web.png
+
+.classpath
+.project
+.settings/
