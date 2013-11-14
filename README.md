@@ -66,13 +66,34 @@ Hilfreich ist dabei, stets einen Blick auf die 'Outline' rechts neben dem Haupt-
 Zum Schluß ist über dem 'GridLayout' eine 'EditText' einzubringen.
 Ihr findet diese unter 'TextFields'. Runter-Scrollen bis zu 'Number (Decimal)'.  Dies ist dann das Richtige.  
 
-Nun sollte das jungfräuliche Design fertig sein.
+Die geometrische Anordnung der Steuerelemente ist nun abgeschlossen.      
 
 ![Image](./readme-img/2-calc-virgin.png)
 
-(Für heute ist zunächst Schluß)
+Um nun die bereitgestellten Steuerelemente später __gezielt__ ansprechen zu können, sind diese __gezielt__ umzubenennen.  
+
+Die Namenskonvention ist folgende :
+
+- Tasten, welche auf Ziffern hindeuten, werden nach *btnNum_x* umbenannt
+- die Dezimal-Punkt-Taste(.) nach *btnNum_Period* umbenennen 
+- die Vorzeichen-Wechsel-Taste (±) nach *btnNum_Invert* umbenennen  
+- die Taste Addieren(+) nach *btnOp_Plus* umbenennen
+- die Taste Subtrahieren(-) nach *btnOp_Minus* umbenennen
+- die Taste Multiplizieren(*) nach *btnOp_Mul* umbenennen
+- die Taste Dividieren(÷) nach *btnOp_Div* umbenennen
+- die Taste (C)lear nach *btnOp_Clear* umbenennen
+- die Taste (=) nach *btnOp_Equals* umbenennen   
+
+Das Ergebnis sollte so aussehen: 
 
 ![Image](./readme-img/4-calc-renamed.png)
 
+Beim Umbenennen erscheint permanent dieser Dialog.  
+Egal wie störend dieser wirkt, Schalter 'OK' betätigen und auf zur nächsten Anpassung.
 
 ![Image](./readme-img/3-rename-resource.png)
+
+Das grafische Layout ist nun abgeschlossen.
+Zu einem nachfolgenden Zeitpunkt werden wir hierher zurückkehren und die Händler einhängen.  
+Dies ist erfolgt jedoch erst im übernächste Schritt.
+ 
