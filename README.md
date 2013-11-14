@@ -88,7 +88,7 @@ Das Ergebnis sollte so aussehen:
 
 ![Image](./readme-img/4-calc-renamed.png)
 
-Beim Umbenennen erscheint permanent dieser Dialog.  
+Während des Umbenennen erscheint permanent dieser Dialog.  
 Egal wie störend dieser wirkt, Schalter 'OK' betätigen und auf zur nächsten Anpassung.
 
 ![Image](./readme-img/3-rename-resource.png)
