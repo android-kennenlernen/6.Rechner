@@ -1,6 +1,6 @@
 # Bevor es richtig los geht
 
-Bevor wir mit der eigentlichen Erstellung der Software beginnen, sollte wir kurz innehalten und darüber nachsinnen, womit wir es zu tun haben.  
+Bevor wir mit der eigentlichen Erstellung der Software beginnen, sollten wir kurz innehalten und darüber nachsinnen, womit wir es zu tun haben.  
 
 Da wäre eine Black Box in der Mitte, an welcher ein Display und eine Tastatur hängen.
 
