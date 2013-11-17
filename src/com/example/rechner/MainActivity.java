@@ -3,6 +3,10 @@
 // MIT licensed
 //
 
+// Issues:
+// 2013-11-17 Meth. 'invertNumber':
+//            - Eingabe von '.' plus Vorzeichen-Wechsel wirft Exception
+
 package com.example.rechner;
 
 import android.os.Bundle;
