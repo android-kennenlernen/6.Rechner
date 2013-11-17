@@ -1,3 +1,8 @@
+//
+// Copyright (C) 2013 Uli Fuchs
+// MIT licensed
+//
+
 package com.example.rechner;
 
 import android.os.Bundle;
@@ -54,7 +59,7 @@ public class MainActivity extends Activity {
     }
     
     /**
-     * Ändert das Vorzeichen eine Zahl
+     * ï¿½ndert das Vorzeichen eine Zahl
      * @param value - Die zu invertierende Zahl als Zeichenkette 
      * @return Die invertierte Zahl als Zeichenkette
      */
@@ -84,7 +89,7 @@ public class MainActivity extends Activity {
     	} else {
     		
     		if (excludePeriod) {
-    			// Dezimalpunkt vorübergehend entfernen.
+    			// Dezimalpunkt vorï¿½bergehend entfernen.
     			value = value.substring(0, len - 1);
     		}
     		
@@ -92,7 +97,7 @@ public class MainActivity extends Activity {
     		retVal = Integer.toString(res); 
     		
     		if (excludePeriod) {
-    			// Dezimalpunkt wieder zurückschreiben.
+    			// Dezimalpunkt wieder zurï¿½ckschreiben.
     			retVal += ".";
     		}
   
