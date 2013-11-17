@@ -54,26 +54,51 @@ public class MainActivity extends Activity {
     }
     
     /**
-     * 
+     * Ändert das Vorzeichen eine Zahl
      * @param value - Die zu invertierende Zahl als Zeichenkette 
      * @return Die invertierte Zahl als Zeichenkette
      */
     String invertNumber(String value) {
+
+    	String retVal;
     	
     	int len = value.length();
     	
-    	int periodPos = value.lastIndexOf('.');
-    	
-    	boolean trueDouble = this.hasPeriod(value); 
-//    			&& (len == periodPos);
+    	int periodPos = value.indexOf('.') + 1;
 
-    	if (trueDouble) {
+    	// Aussage, ob sich der Dezimalpunkt an der letzten Position befindet, 
+    	// e.g. '1.' 
+    	// Dann sollte diese Zahl wie eine Integer behandelt werden.
+    	boolean excludePeriod = len == periodPos;  
+    	
+    	// Aussage, ob sich der Dezimalpunkt links vom Ende der Zahl befindet,
+    	// e.g. '1.0'
+    	boolean realDouble = this.hasPeriod(value) 
+    		&& (len > periodPos);
+
+    	if (realDouble) {
+    		
         	double res = Double.parseDouble(value) * (-1.0);
-        	return Double.toString(res);
+        	retVal = Double.toString(res);
+        	
     	} else {
+    		
+    		if (excludePeriod) {
+    			// Dezimalpunkt vorübergehend entfernen.
+    			value = value.substring(0, len - 1);
+    		}
+    		
     		int res = Integer.parseInt(value) * -1;
-    		return Integer.toString(res);
+    		retVal = Integer.toString(res); 
+    		
+    		if (excludePeriod) {
+    			// Dezimalpunkt wieder zurückschreiben.
+    			retVal += ".";
+    		}
+  
     	}
+    	
+		return retVal;    	
     	
     }     
     
