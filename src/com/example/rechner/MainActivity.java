@@ -59,7 +59,7 @@ public class MainActivity extends Activity {
     }
     
     /**
-     * �ndert das Vorzeichen eine Zahl
+     * Aendert das Vorzeichen eine Zahl
      * @param value - Die zu invertierende Zahl als Zeichenkette 
      * @return Die invertierte Zahl als Zeichenkette
      */
@@ -89,7 +89,7 @@ public class MainActivity extends Activity {
     	} else {
     		
     		if (excludePeriod) {
-    			// Dezimalpunkt vor�bergehend entfernen.
+    			// Dezimalpunkt voruebergehend entfernen.
     			value = value.substring(0, len - 1);
     		}
     		
@@ -97,7 +97,7 @@ public class MainActivity extends Activity {
     		retVal = Integer.toString(res); 
     		
     		if (excludePeriod) {
-    			// Dezimalpunkt wieder zur�ckschreiben.
+    			// Dezimalpunkt wieder zurueckschreiben.
     			retVal += ".";
     		}
   
