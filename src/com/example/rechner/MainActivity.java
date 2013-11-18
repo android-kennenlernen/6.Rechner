@@ -11,6 +11,7 @@ package com.example.rechner;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
@@ -23,11 +24,19 @@ enum State {clean, hasOp1, hasOp2};
 
 public class MainActivity extends Activity {
 
-	State state = State.clean;
+	private State state = State.clean;
+
+	private String op1;
+	
+	private Operation op;
+
+	private String op2;
 	
 	private String displayText;
 	
 	private EditText etDisplay;
+	
+	private String result;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,7 +175,7 @@ public class MainActivity extends Activity {
     	this.state = State.clean;
     	
     	// Display bereinigen
-    	this.displayText = "";
+    	this.displayText = "0.";
     	this.writeDisplay(this.displayText);
     	
     }
@@ -177,14 +186,85 @@ public class MainActivity extends Activity {
      */
     public void onClickBtnOp(View v) {
 
+    	Operation op = Operation.none;
+    	
     	int id = v.getId();
     	
     	switch (id) {
     	
-    	case R.id.btnOp_Clear : clearOp();break;
+    	case R.id.btnOp_Plus : op = Operation.add; break;
+    	case R.id.btnOp_Minus : op = Operation.sub; break;
+    	case R.id.btnOp_Mul : op = Operation.mul; break;
+    	case R.id.btnOp_Div : op = Operation.div; break;
+    	
+    	case R.id.btnOp_Clear : clearOp();return;
     	
     	}     	
     	
+    	this.op = op;
+    	
+    	this.handleOperand(op);    	
+    	
+    	Log.i("info", op.toString());
+    	
     }
+    
+    /**
+     * 
+     * @param op
+     */
+    void handleOperand(Operation op) {
+
+    	if (this.state == State.clean) {
+    		
+    		this.op1 = this.readDisplay();
+    		this.state = State.hasOp1;
+    		
+    		writeDisplay("");
+    		
+    	} else if (this.state == State.hasOp1) {
+    		
+    		this.op2 = this.readDisplay();
+    		this.state = State.hasOp2;
+    		this.result = calculate();
+    		writeDisplay(this.result);
+    		
+    		
+    		this.op1 = this.result;
+    		this.state = State.hasOp1;
+
+
+    	} else if (this.state == State.hasOp2) {
+    		this.result = calculate();
+    		writeDisplay(this.result);
+    	}
+    	
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    private String calculate() {
+
+    	double op1 = Double.parseDouble(this.op1);
+    	double op2 = Double.parseDouble(this.op2);
+    	double res = 0;
+
+    	switch (this.op) {
+    	
+    	case add : res = op1 + op2; this.state = State.clean; break;  
+    	case sub : res = op1 - op2; this.state = State.clean; break;
+    	case mul : res = op1 * op2; this.state = State.clean; break;
+    	case div : res = op1 / op2; this.state = State.clean; break;
+		default:
+			break;
+    	
+    	}
+    	
+    	return Double.toString(res);
+    	
+    }
+    
     
 }
