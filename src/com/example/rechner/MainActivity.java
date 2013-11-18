@@ -16,7 +16,7 @@ import android.view.View;
 import android.widget.EditText;
 
 // Art der gewuenschten Operation
-enum Operator {none, add, sub, mul, div};
+enum Operation {none, add, sub, mul, div};
 
 // Zustand des Rechenwerkes
 enum State {clean, hasOp1, hasOp2}; 
