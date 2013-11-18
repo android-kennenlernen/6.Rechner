@@ -15,8 +15,16 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 
+// Art der gewuenschten Operation
+enum Operator {none, add, sub, mul, div};
+
+// Zustand des Rechenwerkes
+enum State {clean, hasOp1, hasOp2}; 
+
 public class MainActivity extends Activity {
 
+	State state = State.clean;
+	
 	private String displayText;
 	
 	private EditText etDisplay;
@@ -153,8 +161,14 @@ public class MainActivity extends Activity {
      * 
      */
     void clearOp() {
+    	
+    	// Status des Rechenwerkes ruecksetzen
+    	this.state = State.clean;
+    	
+    	// Display bereinigen
     	this.displayText = "";
     	this.writeDisplay(this.displayText);
+    	
     }
     
     /**
