@@ -24,19 +24,20 @@ enum State {clean, hasOp1, hasOp2};
 
 public class MainActivity extends Activity {
 
+	// Rechenwerk
 	private State state = State.clean;
-
 	private String op1;
-	
 	private Operation op;
-
 	private String op2;
-	
-	private String displayText;
-	
-	private EditText etDisplay;
-	
 	private String result;
+
+	// Display
+	private String displayText;
+	private EditText etDisplay;
+
+	// Keys
+	boolean periodPressed = false;
+	
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,19 +154,32 @@ public class MainActivity extends Activity {
     	case R.id.btnNum_7 : num = "7"; break;
     	case R.id.btnNum_8 : num = "8"; break;
     	case R.id.btnNum_9 : num = "9"; break;
-    	case R.id.btnNum_Period : num = !this.hasPeriod(this.displayText) ? "." : ""; 
+    	case R.id.btnNum_Period : this.periodPressed = true; 
     		break;
     	case R.id.btnNum_Invert : this.displayText = invertNumber(this.displayText); 
     		break;    		
     	}     	
- 
+
+    	handlePeriod(this.displayText, this.periodPressed, num);
+    	
     	this.displayText += num;
     	
     	this.writeDisplay(this.displayText);
     		
-    		
     }
 
+    /**
+     * 
+     * @param value
+     * @return
+     */
+    private String handlePeriod(String value, boolean periodPressed, String num) {
+    	
+    	String retVal = !this.hasPeriod(value) ? "." : "";
+    	
+    	return retVal;
+    }
+    
     /**
      * 
      */
