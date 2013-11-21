@@ -34,10 +34,6 @@ public class MainActivity extends Activity {
 	// Display
 	private String displayText;
 	private EditText etDisplay;
-
-	// Keys
-	boolean periodPressed = false;
-	
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +52,7 @@ public class MainActivity extends Activity {
     }
     
     /**
-     * Liest Display aus
+     * Liest das Display aus
      * @return Zahl im Display
      */
     String readDisplay() {
@@ -64,7 +60,7 @@ public class MainActivity extends Activity {
     }
 
     /**
-     * Schreibt auf's Display 
+     * Beschreiben des Displays 
      * @param value - Darzustellende Zahl
      */
     void writeDisplay(String value) {
@@ -72,11 +68,11 @@ public class MainActivity extends Activity {
     }     
     
     /**
-     * 
-     * @param value
-     * @return
+     * Prueft das Vorhandensein eines Dezimal-Punktes in 'value' 
+     * @param value - Zu ueberpruefender Zahlenwert
+     * @return 'True', wenn Dezimal-Punkt vorhanden, andererweise 'False'
      */
-    boolean hasPeriod(String value) {
+    boolean hasDecimalPoint(String value) {
     	return value.contains(".");
     }
     
@@ -87,101 +83,74 @@ public class MainActivity extends Activity {
      */
     String invertNumber(String value) {
 
-    	String retVal;
-    	
-    	int len = value.length();
-    	
-    	int periodPos = value.indexOf('.') + 1;
-
-    	// Aussage, ob sich der Dezimalpunkt an der letzten Position befindet, 
-    	// e.g. '1.' 
-    	// Dann sollte diese Zahl wie eine Integer behandelt werden.
-    	boolean excludePeriod = len == periodPos;  
-    	
-    	// Aussage, ob sich der Dezimalpunkt links vom Ende der Zahl befindet,
-    	// e.g. '1.0'
-    	boolean realDouble = this.hasPeriod(value) 
-    		&& (len > periodPos);
-
-    	if (realDouble) {
-    		
-        	double res = Double.parseDouble(value) * (-1.0);
-        	retVal = Double.toString(res);
-        	
-    	} else {
-    		
-    		if (excludePeriod) {
-    			// Dezimalpunkt voruebergehend entfernen.
-    			value = value.substring(0, len - 1);
-    		}
-    		
-    		int res = Integer.parseInt(value) * -1;
-    		retVal = Integer.toString(res); 
-    		
-    		if (excludePeriod) {
-    			// Dezimalpunkt wieder zurueckschreiben.
-    			retVal += ".";
-    		}
-  
-    	}
-    	
-		return retVal;    	
+    	Double res = Double.parseDouble(value) * (-1);
+		return res.toString();    	
     	
     }     
     
     /**
-     * 
-     * @param v
+     * Ermittelt den betaetigten Schalter und leitet die betreffende Aktion ein
+     * @param v - Referenz aud betaetigten Schalter
      */
-    public void onClickBtnNum(View v) {
-    	
+	public void onClickBtnNum(View v) {
 
-    	String num = "";
-    	
-    	int id = v.getId();
-    	
-    	this.displayText = this.readDisplay();
-    	
-    	switch (id) {
-    	
-    	case R.id.btnNum_0 : num = "0"; break;
-    	case R.id.btnNum_1 : num = "1"; break; 
-    	case R.id.btnNum_2 : num = "2"; break;
-    	case R.id.btnNum_3 : num = "3"; break;
-    	case R.id.btnNum_4 : num = "4"; break;
-    	case R.id.btnNum_5 : num = "5"; break;
-    	case R.id.btnNum_6 : num = "6"; break;
-    	case R.id.btnNum_7 : num = "7"; break;
-    	case R.id.btnNum_8 : num = "8"; break;
-    	case R.id.btnNum_9 : num = "9"; break;
-    	case R.id.btnNum_Period : this.periodPressed = true; 
-    		break;
-    	case R.id.btnNum_Invert : this.displayText = invertNumber(this.displayText); 
-    		break;    		
-    	}     	
+		String num = "";
 
-    	handlePeriod(this.displayText, this.periodPressed, num);
-    	
-    	this.displayText += num;
-    	
-    	this.writeDisplay(this.displayText);
-    		
-    }
+		int id = v.getId(); // Lese 'id' des betaetigten Schalters
 
-    /**
-     * 
-     * @param value
-     * @return
-     */
-    private String handlePeriod(String value, boolean periodPressed, String num) {
-    	
-    	String retVal = !this.hasPeriod(value) ? "." : "";
-    	
-    	return retVal;
-    }
+		String displayText_local = this.readDisplay();
+
+		switch (id) {
+
+		case R.id.btnNum_0:
+			num = "0";
+			break;
+		case R.id.btnNum_1:
+			num = "1";
+			break;
+		case R.id.btnNum_2:
+			num = "2";
+			break;
+		case R.id.btnNum_3:
+			num = "3";
+			break;
+		case R.id.btnNum_4:
+			num = "4";
+			break;
+		case R.id.btnNum_5:
+			num = "5";
+			break;
+		case R.id.btnNum_6:
+			num = "6";
+			break;
+		case R.id.btnNum_7:
+			num = "7";
+			break;
+		case R.id.btnNum_8:
+			num = "8";
+			break;
+		case R.id.btnNum_9:
+			num = "9";
+			break;
+		case R.id.btnNum_Period:
+			if (!this.hasDecimalPoint(displayText_local)) {
+				num = ".";
+			}
+			break;
+		case R.id.btnNum_Invert:
+			displayText_local = invertNumber(displayText_local);
+			break;
+		}
+
+		displayText_local += num;
+
+		this.writeDisplay(displayText_local);
+		this.displayText = displayText_local; 
+
+	}
     
     /**
-     * 
+     * Aktion beim Betaetigen des Schalters 'C'
      */
     void clearOp() {
     	
@@ -189,7 +158,7 @@ public class MainActivity extends Activity {
     	this.state = State.clean;
     	
     	// Display bereinigen
-    	this.displayText = "0.";
+    	this.displayText = "";
     	this.writeDisplay(this.displayText);
     	
     }
@@ -210,7 +179,6 @@ public class MainActivity extends Activity {
     	case R.id.btnOp_Minus : op = Operation.sub; break;
     	case R.id.btnOp_Mul : op = Operation.mul; break;
     	case R.id.btnOp_Div : op = Operation.div; break;
-    	
     	case R.id.btnOp_Clear : clearOp();return;
     	
     	}     	
@@ -229,6 +197,7 @@ public class MainActivity extends Activity {
      */
     void handleOperand(Operation op) {
 
+    	// Falls noch kein erster Zahlenwert vorhanden
     	if (this.state == State.clean) {
     		
     		this.op1 = this.readDisplay();
@@ -242,7 +211,6 @@ public class MainActivity extends Activity {
     		this.state = State.hasOp2;
     		this.result = calculate();
     		writeDisplay(this.result);
-    		
     		
     		this.op1 = this.result;
     		this.state = State.hasOp1;
