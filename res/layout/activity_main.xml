@@ -195,6 +195,7 @@
             android:layout_column="3"
             android:layout_gravity="left|bottom"
             android:layout_row="4"
+            android:onClick="onClickBtnOp"
             android:text="=" />
     </GridLayout>
 

@@ -3,15 +3,10 @@
 // MIT licensed
 //
 
-// Issues:
-// 2013-11-17 Meth. 'invertNumber':
-//            - Eingabe von '.' plus Vorzeichen-Wechsel wirft Exception
-
 package com.example.rechner;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
@@ -27,13 +22,12 @@ public class MainActivity extends Activity {
 	// Rechenwerk
 	private State state = State.clean;
 	private String op1;
-	private Operation op;
+	private Operation op = Operation.none;
 	private String op2;
-	private String result;
 
 	// Display
-	private String displayText;
 	private EditText etDisplay;
+	private boolean newOperandExpected = true;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +44,25 @@ public class MainActivity extends Activity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+    
+    /**
+     * 
+     * @param value
+     */
+    private void setOp1(String value) {
+    	this.op1 = value;
+    	this.state = State.hasOp1;
+    }
+
+    /**
+     * 
+     * @param value
+     */
+    private void setOp2(String value) {
+    	this.op2 = value;
+    	this.state = State.hasOp2;
+    }
+    
     
     /**
      * Liest das Display aus
@@ -96,11 +109,17 @@ public class MainActivity extends Activity {
 
 		String num = "";
 
-		int id = v.getId(); // Lese 'id' des betaetigten Schalters
+		String displayText = "";
+		
+		if (this.newOperandExpected) {
+			this.writeDisplay("");
+			this.newOperandExpected = false;
+		} else {
+			displayText = this.readDisplay();
+		}
 
-		String displayText_local = this.readDisplay();
-
-		switch (id) {
+		// Auswerten des betaetigten Schalters
+		switch (v.getId()) {
 
 		case R.id.btnNum_0:
 			num = "0";
@@ -133,19 +152,16 @@ public class MainActivity extends Activity {
 			num = "9";
 			break;
 		case R.id.btnNum_Period:
-			if (!this.hasDecimalPoint(displayText_local)) {
+			if (!this.hasDecimalPoint(displayText)) {
 				num = ".";
 			}
 			break;
 		case R.id.btnNum_Invert:
-			displayText_local = invertNumber(displayText_local);
+			displayText = invertNumber(displayText);
 			break;
 		}
 
-		displayText_local += num;
-
-		this.writeDisplay(displayText_local);
-		this.displayText = displayText_local; 
+		this.writeDisplay(displayText + num);
 
 	}
     
@@ -158,8 +174,7 @@ public class MainActivity extends Activity {
     	this.state = State.clean;
     	
     	// Display bereinigen
-    	this.displayText = "";
-    	this.writeDisplay(this.displayText);
+    	this.writeDisplay("");
     	
     }
     
@@ -170,24 +185,43 @@ public class MainActivity extends Activity {
     public void onClickBtnOp(View v) {
 
     	Operation op = Operation.none;
+    	String result;
     	
-    	int id = v.getId();
+    	this.newOperandExpected = true;
     	
-    	switch (id) {
+    	switch (v.getId()) {
     	
-    	case R.id.btnOp_Plus : op = Operation.add; break;
+    	case R.id.btnOp_Plus : op = Operation.add;  break;
     	case R.id.btnOp_Minus : op = Operation.sub; break;
     	case R.id.btnOp_Mul : op = Operation.mul; break;
     	case R.id.btnOp_Div : op = Operation.div; break;
     	case R.id.btnOp_Clear : clearOp();return;
+    	case R.id.btnOp_Equals : equalsOp();return;
+    	
     	
     	}     	
     	
-    	this.op = op;
-    	
     	this.handleOperand(op);    	
+
+    	if (this.state == State.hasOp2) {
+    		result = this.calculate(this.op);
+    		this.writeDisplay(result);
+    		this.handleOperand(op);
+    	}
     	
-    	Log.i("info", op.toString());
+    }
+    
+    /**
+     * 
+     */
+    void equalsOp() {
+    	
+		this.setOp2(this.readDisplay());
+
+		String result = this.calculate(this.op);
+
+		this.writeDisplay(result);
+		this.state = State.clean;
     	
     }
     
@@ -196,29 +230,17 @@ public class MainActivity extends Activity {
      * @param op
      */
     void handleOperand(Operation op) {
-
-    	// Falls noch kein erster Zahlenwert vorhanden
-    	if (this.state == State.clean) {
-    		
-    		this.op1 = this.readDisplay();
-    		this.state = State.hasOp1;
-    		
-    		writeDisplay("");
-    		
-    	} else if (this.state == State.hasOp1) {
-    		
-    		this.op2 = this.readDisplay();
-    		this.state = State.hasOp2;
-    		this.result = calculate();
-    		writeDisplay(this.result);
-    		
-    		this.op1 = this.result;
-    		this.state = State.hasOp1;
-
-
-    	} else if (this.state == State.hasOp2) {
-    		this.result = calculate();
-    		writeDisplay(this.result);
+    	
+    	switch (this.state) {
+    	case clean :
+    		this.setOp1(this.readDisplay());
+    		this.op = op;
+    		break;
+    	case hasOp1 :
+    		this.setOp2(this.readDisplay());
+    		break;
+		default:
+			break;
     	}
     	
     }
@@ -227,13 +249,13 @@ public class MainActivity extends Activity {
      * 
      * @return
      */
-    private String calculate() {
+    private String calculate(Operation op) {
 
     	double op1 = Double.parseDouble(this.op1);
     	double op2 = Double.parseDouble(this.op2);
     	double res = 0;
 
-    	switch (this.op) {
+    	switch (op) {
     	
     	case add : res = op1 + op2; this.state = State.clean; break;  
     	case sub : res = op1 - op2; this.state = State.clean; break;
@@ -247,6 +269,5 @@ public class MainActivity extends Activity {
     	return Double.toString(res);
     	
     }
-    
     
 }
